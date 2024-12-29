@@ -1,7 +1,7 @@
 package main
 //rverse a number 
 
-
+/*
 import ("fmt")
 
 func main(){
@@ -19,3 +19,4 @@ func main(){
 	}
 	fmt.Println()
 }
+*/
