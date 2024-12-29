@@ -1,0 +1,3 @@
+class GO_interpreter {
+    
+}
