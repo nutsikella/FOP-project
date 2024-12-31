@@ -65,6 +65,13 @@ public class GO_interpreter {
 
     private void scan(String line){
         // handles scan statement 
+        String varName = line.substring(line.indexOf('&') + 1, line.lastIndexOf(')')).trim();
+        if(variables.containsKey(varName)){
+            int value = sc.nextInt();
+            variables.put(varName, value);
+        }else{
+            throw new IllegalArgumentException("Invalid or Undefined variable in fmt.Scan at: " + line);
+        }
         
     }
 
