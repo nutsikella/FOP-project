@@ -10,11 +10,16 @@ func main(){
 
 	sum := 1
 
-	for i := 1; i <= n; i++{
-		sum *= i
+	i := 1
+	for  i <= n{
+		sum = sum * i
+		i++
 	}
 
-	fmt.Printf("The factorial of %d is  %d\n",n,sum)
+	fmt.Print("The factorial of given number is ")
+	fmt.Println(sum)
 
 }
 */
+
+

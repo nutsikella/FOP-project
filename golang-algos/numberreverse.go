@@ -15,8 +15,9 @@ func main(){
 	for n != 0 {
 		m = n % 10
 		fmt.Print(m)
-		n /= 10
+		n = n/10
 	}
 	fmt.Println()
 }
 */
+

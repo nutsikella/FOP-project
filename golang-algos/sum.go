@@ -1,5 +1,6 @@
 package main
 //a program summing 1st n natural numbers 
+
 /*
 import (
 	"fmt"
@@ -10,11 +11,13 @@ func main(){
 	fmt.Scan(&n)
 
 	sum := 0 
-	for i := 1; i <= n; i++{
-		sum += i 
+	i := 1
+	for i <= n{
+		sum = sum + i 
+		i++
 	} 
-
-	fmt.Printf("The sum of first %d natural numbers is %d\n",n,sum)
+	fmt.Print("The sum of 1st given amount of natural numbers is: ")
+	fmt.Println(sum)
 
 }
 */
