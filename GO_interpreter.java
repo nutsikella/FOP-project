@@ -49,6 +49,17 @@ public class GO_interpreter {
 
     private void print(String line, boolean newline){
         // handles print() and println() statements
+        // extra newline param lets us control whether we should add new line after printing
+        String expr = line.substring(line.indexOf('(') + 1, line.lastIndexOf(')')).trim();
+        if (expr.startsWith("\"") && expr.endsWith("\"")){
+            // print onlt the string given as input
+            System.out.print(expr.substring(1,expr.length() - 1)+ (newline ? "\n" : ""));
+        }else if(variables.containsKey(expr)){
+            //print value of a variable
+            System.out.println(variables.get(expr) + (newline ? "\n" : ""));
+        }else {
+            throw new IllegalArgumentException("Invalid fmt.Print() or fmt.Println() expression at: " + line);
+        }
 
     }
 
