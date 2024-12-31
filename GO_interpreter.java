@@ -42,7 +42,7 @@ public class GO_interpreter {
         if(parts.length == 3 && parts[2].equals("int")){
             variables.put(parts[1], 0);
         }else{
-            throw new IllegalArgumentException("Invalid variable declaration at: " + line);
+            throw new IllegalArgumentException("Invalid variable declaration : " + line);
         }
 
     }
@@ -58,7 +58,7 @@ public class GO_interpreter {
             //print value of a variable
             System.out.println(variables.get(expr) + (newline ? "\n" : ""));
         }else {
-            throw new IllegalArgumentException("Invalid fmt.Print() or fmt.Println() expression at: " + line);
+            throw new IllegalArgumentException("Invalid fmt.Print() or fmt.Println() expression : " + line);
         }
 
     }
@@ -70,20 +70,41 @@ public class GO_interpreter {
             int value = sc.nextInt();
             variables.put(varName, value);
         }else{
-            throw new IllegalArgumentException("Invalid or Undefined variable in fmt.Scan at: " + line);
+            throw new IllegalArgumentException("Invalid or Undefined variable in fmt.Scan : " + line);
         }
         
     }
-
+//"[=:]+"
     private void assignValue(String line){
         // handles variable assignment
+       
+        String[] parts = line.split("[=:]+",2);
+
+        String varName = parts[0].trim();
+        String expr = parts[1].trim();
+
+        int value = evaluateArithmetic(expr);
+        if(!variables.containsKey(varName) && line.contains(":=")){
+            variables.put(varName, value);
+        }else if(variables.containsKey(varName)){
+            variables.put(varName, value);
+        }else{
+            throw new IllegalArgumentException("Invalid variable assignment : " + varName);
+        }
 
     }
 
     private int evaluateArithmetic(String expr){
-        // evaluates arithemtic expressions
-
-        return 0;
+        // evaluate Arithmetic expression
+        try {
+            return Integer.parseInt(expr);
+        } catch (NumberFormatException e) {
+            if(variables.containsKey(expr)){
+                return variables.get(expr);
+            }else{
+                throw new IllegalArgumentException("Invalid or Undefined arithmetic expression : " + expr);
+            }
+        }
     }
 
     private void evaluateIf(String line){
