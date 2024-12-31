@@ -6,16 +6,44 @@ public class GO_interpreter {
 
     public void interpret(String code){
         //splits given code into lines and outline the expression in it 
+        String[] lines = code.split("\\n");
+        for (String line : lines){
+            lineExecution(line.trim());
+        }
 
     }
 
     private void lineExecution(String line){
         //executes given line according to what code is written in it by calling appropriate functions
+        if(line.startsWith("var")){
+            variableDeclaration(line);
+        }else if (line.startsWith("fmt.Print(")) {
+            print(line, false);
+        }else if (line.startsWith("fmt.Println(")) {
+            print(line, true);
+        }else if (line.startsWith("fmt.Scan(")) {
+            scan(line);
+        }else if (line.contains("=") || line.contains(":=")){
+            assignValue(line);
+        }else if (line.startsWith("if")){
+            evaluateIf(line);
+        }else if(line.startsWith("for")){
+            forLoop(line);
+        }else if(line.startsWith("return")){
+            GOreturn(line);
+        }
 
     }
 
     private void variableDeclaration(String line){
         //handles variable declaration
+        String[] parts = line.split(" ");
+        // note: interpreter can only parse int variables
+        if(parts.length == 3 && parts[2].equals("int")){
+            variables.put(parts[1], 0);
+        }else{
+            throw new IllegalArgumentException("Invalid variable declaration at: " + line);
+        }
 
     }
 
@@ -40,13 +68,13 @@ public class GO_interpreter {
         return 0;
     }
 
-    private void evaluateBoolean(String line){
-        //evaluates boolean conditions 
+    private void evaluateIf(String line){
+        //evaluates If statement 
 
     }
 
     private void forLoop(String line){
-        // for handling for loops
+        // for handling for loops with only 1 condition (while loop version of GO)
 
     }
 
