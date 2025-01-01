@@ -15,7 +15,7 @@ Here is a complete list  of all expressions in given subset of go language:
 List of algorithms: 
 1. factorial: works
 2. fibonacci: works 
-3. GCD
+3. GCD: works
 4. largest digit: works 
 5. multiplication table: works 
 6. reversing a number: works

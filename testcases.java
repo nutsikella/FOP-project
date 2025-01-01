@@ -1,17 +1,25 @@
 public class testcases {
     // for running testcases separately for each function
     public static void main(String[] args) {
-        // testing for random int n
+        // // testing for random ints a and b
         String GOcode = """
-		   n := 123
+     a := 25
+b := 10
 
-	sum := 0
-	for n > 0{
-		sum = sum + n % 10
-		n = n/10
-	}
-	fmt.Print("Sum of the digits of given number: ")
-	fmt.Println(sum)
+if a < b {
+    temp := a
+    a = b
+    b = temp
+}
+
+for b > 0 {  
+    temp := b
+    b = a % b
+    a = temp
+}
+
+fmt.Print("The GCD of given numbers is: ")
+fmt.Println(a)
         """;
         GO_interpreter interpreter = new GO_interpreter();
         interpreter.interpret(GOcode);
