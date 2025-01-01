@@ -3,28 +3,27 @@ public class testcases {
     public static void main(String[] args) {
         // testing for random int n
         String GOcode = """
-	n := 12
+	n := 13
 
-	original := n
-	
-	var endDigit int
-	var reversed int 
-	
-	for n > 0{
-		endDigit = n % 10 
-		reversed = reversed*10 + endDigit
-		n = n/10
-	}
+    if n < 2 {
+        fmt.Println("Given number isn't a prime number")
+        return
+    }
 
-	if reversed > original {
-		fmt.Println("Given number isn't a Palindrome")
-		return
-	}
-	if reversed < original {
-		fmt.Println("Given number isn't a Palindrome")
-		return
-	}
-		fmt.Println("Given number is a Palindrome")
+    i := 2
+    k := i * i
+    f := n + 1
+    for k < f {
+        remainder := n % i
+        if remainder > 0 { 
+            i = i + 1
+            k = i * i
+        } else {
+            fmt.Println("Given number isn't a prime number")
+            return
+        }
+    }
+    fmt.Println("Given number is a prime number")
         """;
         GO_interpreter interpreter = new GO_interpreter();
         interpreter.interpret(GOcode);

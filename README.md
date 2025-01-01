@@ -20,6 +20,6 @@ List of algorithms:
 5. multiplication table: works 
 6. reversing a number: works
 7. palindrome number: works
-8. prime number
+8. prime number: works
 9, sum
 10. sum of digits 

@@ -4,22 +4,28 @@ package main
 import "fmt"
 
 func main() {
-	var n int
-	fmt.Print("Enter a number: ")
-	fmt.Scan(&n)
-	if n <= 1 {
-		fmt.Println("Given number isn't a prime number")
-		return
-	}
-	i := 2
-	for  i*i <= n{ 
-		if n%i == 0 {
-			fmt.Println("Given number isn't a prime number")
-			return
-		}
-		i++
-	}
-	fmt.Println("Given number is a prime number")
+// testing for random int n
+	n := 13
+
+    if n < 2 {
+        fmt.Println("Given number isn't a prime number")
+        return
+    }
+
+    i := 2
+    k := i * i
+    f := n + 1
+    for k < f {
+        remainder := n % i
+        if remainder > 0 { 
+            i = i + 1
+            k = i * i
+        } else {
+            fmt.Println("Given number isn't a prime number")
+            return
+        }
+    }
+    fmt.Println("Given number is a prime number")
 }
 */
 

@@ -6,7 +6,8 @@ import (
 	"fmt"
 )
 func main(){
-	var n int 
+// testing for random int n
+	n := 123
 	fmt.Print("Enter a value for n: ")
 	fmt.Scan(&n)
 
