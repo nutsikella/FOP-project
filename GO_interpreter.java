@@ -133,6 +133,8 @@ public class GO_interpreter {
                         return leftValue >= rightValue;
                     case "==":
                         return leftValue == rightValue;
+                    case "!=":
+                        return leftValue != rightValue;
                     case "<":
                         return leftValue < rightValue;
                     case ">":

@@ -4,14 +4,14 @@ package main
 import ("fmt")
 
 func main(){
-	var n int
-	fmt.Print("Enter a number n: ")
-	fmt.Scan(&n)
+// testing for random int n 
+	n := 237
 
 	largest := 0
-	for n != 0{
-		if n % 10 > largest{
-			largest = n % 10
+	for n > 0{
+	    k := n % 10
+		if k > largest{
+			largest = k
 		}
 		n = n/10
 	}

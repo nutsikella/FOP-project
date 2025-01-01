@@ -4,13 +4,9 @@ package main
 import "fmt"
 
 func main() {
-	var a int
-	var b int
-
-	// Read two numbers from the user
-	fmt.Print("Enter two numbers: ")
-	fmt.Scan(&a)
-	fmt.Scan(&b)
+// testing for random ints a and b instead of using scanner 
+	a := 25
+	b := 10 
 
 	if a < b {
 		a = b
