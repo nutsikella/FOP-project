@@ -1,114 +1,129 @@
 import java.util.*;
-
 public class GO_interpreter {
     private static final Scanner sc = new Scanner(System.in);
-    private final Map<String,Integer> variables = new HashMap<>();  // storage for variables
+    private final Map<String, Integer> variables = new HashMap<>();
 
-    public void interpret(String code){
-        //splits given code into lines and outline the expression in it 
+    public void interpret(String code) {
         String[] lines = code.split("\\n");
-        for (String line : lines){
+        for (String line : lines) {
             lineExecution(line.trim());
         }
-
     }
 
-    private void lineExecution(String line){
-        //executes given line according to what code is written in it by calling appropriate functions
-        if(line.startsWith("var")){
+    private void lineExecution(String line) {
+        if (line.startsWith("var")) {
             variableDeclaration(line);
-        }else if (line.startsWith("fmt.Print(")) {
+        } else if (line.startsWith("fmt.Print(")) {
             print(line, false);
-        }else if (line.startsWith("fmt.Println(")) {
+        } else if (line.startsWith("fmt.Println(")) {
             print(line, true);
-        }else if (line.startsWith("fmt.Scan(")) {
+        } else if (line.startsWith("fmt.Scan(")) {
             scan(line);
-        }else if (line.contains("=") || line.contains(":=")){
+        } else if (line.contains("=") || line.contains(":=")) {
             assignValue(line);
-        }else if (line.startsWith("if")){
+        } else if (line.startsWith("if")) {
             evaluateIf(line);
-        }else if(line.startsWith("for")){
+        } else if (line.startsWith("for")) {
             forLoop(line);
-        }else if(line.startsWith("return")){
+        } else if (line.startsWith("return")) {
             GOreturn(line);
         }
-
     }
 
-    private void variableDeclaration(String line){
-        //handles variable declaration
+    private void variableDeclaration(String line) {
         String[] parts = line.split(" ");
-        // note: interpreter can only parse int variables
-        if(parts.length == 3 && parts[2].equals("int")){
+        if (parts.length == 3 && parts[2].equals("int")) {
             variables.put(parts[1], 0);
-        }else{
-            throw new IllegalArgumentException("Invalid variable declaration : " + line);
+        } else {
+            throw new IllegalArgumentException("Invalid variable declaration: " + line);
         }
-
     }
 
-    private void print(String line, boolean newline){
-        // handles print() and println() statements
-        // extra newline param lets us control whether we should add new line after printing
+    private void print(String line, boolean newline) {
         String expr = line.substring(line.indexOf('(') + 1, line.lastIndexOf(')')).trim();
-        if (expr.startsWith("\"") && expr.endsWith("\"")){
-            // print onlt the string given as input
-            System.out.print(expr.substring(1,expr.length() - 1)+ (newline ? "\n" : ""));
-        }else if(variables.containsKey(expr)){
-            //print value of a variable
-            System.out.println(variables.get(expr) + (newline ? "\n" : ""));
-        }else {
-            throw new IllegalArgumentException("Invalid fmt.Print() or fmt.Println() expression : " + line);
+        if (expr.startsWith("\"") && expr.endsWith("\"")) {
+            // Print a string literal
+            System.out.print(expr.substring(1, expr.length() - 1) + (newline ? "\n" : ""));
+        } else if (variables.containsKey(expr)) {
+            // Print the value of a variable
+            System.out.print(variables.get(expr) + (newline ? "\n" : ""));
+        } else {
+            throw new IllegalArgumentException("Invalid fmt.Print() or fmt.Println() expression: " + line);
         }
-
     }
+    
 
-    private void scan(String line){
-        // handles scan statement 
+    private void scan(String line) {
         String varName = line.substring(line.indexOf('&') + 1, line.lastIndexOf(')')).trim();
-        if(variables.containsKey(varName)){
+        if (variables.containsKey(varName)) {
             int value = sc.nextInt();
             variables.put(varName, value);
-        }else{
-            throw new IllegalArgumentException("Invalid or Undefined variable in fmt.Scan : " + line);
+        } else {
+            throw new IllegalArgumentException("Invalid or Undefined variable in fmt.Scan: " + line);
         }
-        
     }
-    private void assignValue(String line){
-        // handles variable assignment
-       
-        String[] parts = line.split("[]=:]+",2);
+
+    private void assignValue(String line) {
+        String[] parts = line.split("[:=]+", 2);
 
         String varName = parts[0].trim();
         String expr = parts[1].trim();
 
         int value = evaluateArithmetic(expr);
-        if(!variables.containsKey(varName) && line.contains(":=")){
+        if (!variables.containsKey(varName) && line.contains(":=")) {
             variables.put(varName, value);
-        }else if(variables.containsKey(varName)){
+        } else if (variables.containsKey(varName)) {
             variables.put(varName, value);
-        }else{
-            throw new IllegalArgumentException("Invalid variable assignment : " + varName);
+        } else {
+            throw new IllegalArgumentException("Invalid variable assignment: " + varName);
         }
-
     }
 
-    private int evaluateArithmetic(String expr){
-        // evaluate Arithmetic expression
+    private int evaluateArithmetic(String expr) {
         try {
-            // POSSIBLE BUG
+            // Evaluate directly if it's a simple number
             return Integer.parseInt(expr);
         } catch (NumberFormatException e) {
-            if(variables.containsKey(expr)){
-                return variables.get(expr);
-            }else{
-                throw new IllegalArgumentException("Invalid or Undefined arithmetic expression : " + expr);
+            // Handle arithmetic expressions
+            String[] operators = {"+", "-", "*", "/", "%"};
+            for (String operator : operators) {
+                int operatorIndex = expr.indexOf(operator);
+                if (operatorIndex != -1) {
+                    String leftOperand = expr.substring(0, operatorIndex).trim();
+                    String rightOperand = expr.substring(operatorIndex + 1).trim();
+                    int leftValue = evaluateArithmetic(leftOperand);
+                    int rightValue = evaluateArithmetic(rightOperand);
+                    switch (operator) {
+                        case "+":
+                            return leftValue + rightValue;
+                        case "-":
+                            return leftValue - rightValue;
+                        case "*":
+                            return leftValue * rightValue;
+                        case "/":
+                            if (rightValue == 0) {
+                                throw new ArithmeticException("Division by zero in expression: " + expr);
+                            }
+                            return leftValue / rightValue;
+                        case "%":
+                            if (rightValue == 0) {
+                                throw new ArithmeticException("Modulo by zero in expression: " + expr);
+                            }
+                            return leftValue % rightValue;
+                    }
+                }
             }
+    
+            // Check if it's a variable
+            if (variables.containsKey(expr)) {
+                return variables.get(expr);
+            }
+    
+            throw new IllegalArgumentException("Invalid or Undefined arithmetic expression: " + expr);
         }
     }
-
-    private void evaluateIf(String line){
-        //evaluates If statement 
+    
+    private void evaluateIf(String line) {
         if (line.startsWith("if ")) {
             String condition = line.substring(3, line.indexOf("{")).trim();
             String body = line.substring(line.indexOf("{") + 1, line.lastIndexOf("}"));
@@ -119,10 +134,9 @@ public class GO_interpreter {
         } else {
             throw new IllegalArgumentException("Invalid if statement: " + line);
         }
-
     }
+
     private boolean evaluateCondition(String condition) {
-        // Simple evaluation of conditions (supports variables and constants)
         String[] parts = condition.split("<=|>=|==|<|>|");
         if (parts.length != 2) {
             throw new IllegalArgumentException("Invalid condition: " + condition);
@@ -146,8 +160,7 @@ public class GO_interpreter {
         }
     }
 
-    private void forLoop(String line){
-        // for handling for loops with only 1 condition (while loop version of GO)
+    private void forLoop(String line) {
         if (line.startsWith("for ")) {
             String condition = line.substring(4, line.indexOf("{")).trim();
             String body = line.substring(line.indexOf("{") + 1, line.lastIndexOf("}"));
@@ -160,9 +173,7 @@ public class GO_interpreter {
         }
     }
 
-    private void GOreturn(String line){
-        // handles return statement which finishes the execution 
+    private void GOreturn(String line) {
         System.exit(0);
     }
-
 }
