@@ -17,7 +17,7 @@ List of algorithms:
 2. fibonacci: works 
 3. GCD
 4. largest digit: works 
-5. multiplication table 
+5. multiplication table: works 
 6. reversing a number
 7. palindrome number 
 8. prime number

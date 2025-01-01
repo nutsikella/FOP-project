@@ -1,20 +1,17 @@
 public class testcases {
     // for running testcases separately for each function
     public static void main(String[] args) {
-        // testing for random ints a and b instead of using scanner 
+        // testing for random int n
         String GOcode = """
-    n := 297
+			n := 3
 
-	largest := 0
-	for n > 0{
-	    k := n % 10
-		if k > largest{
-			largest = k
-		}
-		n = n/10
+	fmt.Println("Multiplication table for given number: ")
+	i := 1
+	for  i < 11{
+	    k := i*n
+		fmt.Println(k)
+		i = i + 1
 	}
-	fmt.Print("largest digit is : ")
-	fmt.Println(largest)
         """;
         GO_interpreter interpreter = new GO_interpreter();
         interpreter.interpret(GOcode);
