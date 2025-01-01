@@ -3,31 +3,19 @@ public class testcases {
     public static void main(String[] args) {
         // testing for random int n
         String GOcode = """
-	n := 13
+		n := 3
 
-    if n < 2 {
-        fmt.Println("Given number isn't a prime number")
-        return
-    }
-
-    i := 2
-    k := i * i
-    f := n + 1
-    for k < f {
-        remainder := n % i
-        if remainder > 0 { 
-            i = i + 1
-            k = i * i
-        } else {
-            fmt.Println("Given number isn't a prime number")
-            return
-        }
-    }
-    fmt.Println("Given number is a prime number")
+	sum := 0 
+	i := 1
+	n = n + 1
+	for i < n{
+		sum = sum + i 
+		i = i + 1
+	} 
+	fmt.Print("The sum of 1st given amount of natural numbers is: ")
+	fmt.Println(sum)
         """;
         GO_interpreter interpreter = new GO_interpreter();
         interpreter.interpret(GOcode);
-        // output: 5 
     }
-    
 }
