@@ -21,5 +21,5 @@ List of algorithms:
 6. reversing a number: works
 7. palindrome number: works
 8. prime number: works
-9, sum
+9, sum: works
 10. sum of digits 
