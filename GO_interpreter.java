@@ -77,7 +77,7 @@ public class GO_interpreter {
     private void assignValue(String line){
         // handles variable assignment
        
-        String[] parts = line.split("[=:]+",2);
+        String[] parts = line.split("[]=:]+",2);
 
         String varName = parts[0].trim();
         String expr = parts[1].trim();
