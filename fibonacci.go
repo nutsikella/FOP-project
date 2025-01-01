@@ -4,9 +4,8 @@ package main
 /*
 import ("fmt")
 func main(){
-	var n int
-	fmt.Print("Enter a number n: ")
-	fmt.Scan(&n)
+// testing for random int n instead of using scanner 
+	n := 3
 
 	var fib int 
 	f1 := 0 
@@ -30,7 +29,7 @@ func main(){
 			fib = f1 + f2
 			f1 = f2
 			f2 = fib
-			i++
+			i = i + 1
 		}
 	}
 		fmt.Print("Fibonacci number at given index is : ")
