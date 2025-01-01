@@ -22,4 +22,4 @@ List of algorithms:
 7. palindrome number: works
 8. prime number: works
 9, sum: works
-10. sum of digits 
+10. sum of digits: works

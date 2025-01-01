@@ -5,12 +5,11 @@ package main
 import ("fmt")
 
 func main(){
-	var n int
-	fmt.Print("Enter a number n: ")
-	fmt.Scan(&n)
+// testing for random int n
+   n := 123
 
 	sum := 0
-	for n != 0{
+	for n > 0{
 		sum = sum + n % 10
 		n = n/10
 	}
