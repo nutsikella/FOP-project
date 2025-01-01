@@ -18,7 +18,7 @@ List of algorithms:
 3. GCD
 4. largest digit: works 
 5. multiplication table: works 
-6. reversing a number
+6. reversing a number: works
 7. palindrome number 
 8. prime number
 9, sum

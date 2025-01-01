@@ -5,19 +5,16 @@ package main
 import ("fmt")
 
 func main(){
-	var n int 
-	fmt.Println("Enter a number: ")
-	fmt.Scan(&n)
-
-	m := 0 
+    // testing for random int n
+	n := 123
+	var m int
 
 	fmt.Print("Reversed: ")
-	for n != 0 {
+	for n > 0 {
 		m = n % 10
 		fmt.Print(m)
 		n = n/10
 	}
-	fmt.Println()
 }
 */
 

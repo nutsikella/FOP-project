@@ -3,14 +3,14 @@ public class testcases {
     public static void main(String[] args) {
         // testing for random int n
         String GOcode = """
-			n := 3
+	n := 1234
+	var m int
 
-	fmt.Println("Multiplication table for given number: ")
-	i := 1
-	for  i < 11{
-	    k := i*n
-		fmt.Println(k)
-		i = i + 1
+	fmt.Print("Reversed: ")
+	for n > 0 {
+		m = n % 10
+		fmt.Print(m)
+		n = n/10
 	}
         """;
         GO_interpreter interpreter = new GO_interpreter();
