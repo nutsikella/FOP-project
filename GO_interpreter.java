@@ -5,6 +5,7 @@ public class GO_interpreter {
     private final Map<String, Integer> variables = new HashMap<>();
 
     public void interpret(String code) {
+        // we divide code so that we can handle each line separately later
         String[] lines = code.split("\\n");
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i].trim();
@@ -20,14 +21,13 @@ public class GO_interpreter {
     }
 
     private void lineExecution(String line) {
+        // function which sends each line to the function that can parse it properly
         if (line.startsWith("var")) {
             variableDeclaration(line);
         } else if (line.startsWith("fmt.Print(")) {
             print(line, false);
         } else if (line.startsWith("fmt.Println(")) {
             print(line, true);
-        } else if (line.startsWith("fmt.Scan(")) {
-            scan(line);
         } else if (line.contains("=") || line.contains(":=")) {
             assignValue(line);
         } else if(line.startsWith("return")){
@@ -36,6 +36,7 @@ public class GO_interpreter {
     }
 
     private void variableDeclaration(String line) {
+        // handles variable declaration (ex: var n int)
         String[] parts = line.split(" ");
         if (parts.length == 3 && parts[2].equals("int")) {
             variables.put(parts[1], 0);
@@ -45,6 +46,7 @@ public class GO_interpreter {
     }
 
     private void print(String line, boolean newline) {
+        //handles print statements (ex: fmt.Println("String"), fmt.Print(variable),)
         String expr = line.substring(line.indexOf('(') + 1, line.lastIndexOf(')')).trim();
         if (expr.startsWith("\"") && expr.endsWith("\"")) {
             // Print a string literal
@@ -57,17 +59,8 @@ public class GO_interpreter {
         }
     }
 
-    private void scan(String line) {
-        String varName = line.substring(line.indexOf('&') + 1, line.lastIndexOf(')')).trim();
-        if (variables.containsKey(varName)) {
-            int value = sc.nextInt();
-            variables.put(varName, value);
-        } else {
-            throw new IllegalArgumentException("Invalid or Undefined variable in fmt.Scan: " + line);
-        }
-    }
-
     private void assignValue(String line) {
+        // handles value assignment using := and = operators 
         String[] parts = line.split("[:=]+", 2);
 
         String varName = parts[0].trim();
@@ -84,6 +77,7 @@ public class GO_interpreter {
     }
 
     private int evaluateArithmetic(String expr) {
+        // handles evaluation of arithmetic expressions
         try {
             return Integer.parseInt(expr);
         } catch (NumberFormatException e) {
@@ -119,7 +113,8 @@ public class GO_interpreter {
     }
 
     private boolean evaluateCondition(String condition) {
-        String[] operators = {"<=", ">=", "==", "<", ">"};
+        // handles condition evaluation
+        String[] operators = { "<", ">"};
         for (String operator : operators) {
             int operatorIndex = condition.indexOf(operator);
             if (operatorIndex != -1) {
@@ -129,14 +124,6 @@ public class GO_interpreter {
                 int rightValue = evaluateArithmetic(right);
 
                 switch (operator) {
-                    case "<=":
-                        return leftValue <= rightValue;
-                    case ">=":
-                        return leftValue >= rightValue;
-                    case "==":
-                        return leftValue == rightValue;
-                    case "!=":
-                        return leftValue != rightValue;
                     case "<":
                         return leftValue < rightValue;
                     case ">":
@@ -148,6 +135,7 @@ public class GO_interpreter {
     }
 
     private int handleBlock(String[] lines, int startIndex) {
+        // handles {} blocks for if-else and for loop
         String line = lines[startIndex].trim();
         int braceCount = 0;
         StringBuilder blockContent = new StringBuilder();
@@ -170,6 +158,7 @@ public class GO_interpreter {
     }
 
     private void handleIfElseBlock(String block) {
+        // handles if-else
         int elseIndex = block.indexOf("else");
         String ifPart = elseIndex == -1 ? block : block.substring(0, elseIndex).trim();
         String elsePart = elseIndex == -1 ? "" : block.substring(elseIndex + 4).trim();
@@ -186,6 +175,7 @@ public class GO_interpreter {
     }
 
     private void handleForBlock(String block) {
+        //handles for loop
         String condition = block.substring(4, block.indexOf("{")).trim();
         String body = block.substring(block.indexOf("{") + 1, block.lastIndexOf("}")).trim();
 
@@ -194,7 +184,7 @@ public class GO_interpreter {
         }
     }
     private void GOreturn(String line){
-        // handles return statement which finishes the execution 
+        // handles return statement
         System.exit(0);
     }
 }

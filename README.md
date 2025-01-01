@@ -1,6 +1,14 @@
-This is an interpreter written in Java for GOLANG language subset, which includes all simple expressions necessary for implementing given 10 algorithms in the GO language. 
+Project Title: Java Interpreter for defined subset of GO language
+Team member: Nutsa Chikhladze
 
-Here is a complete list  of all expressions in given subset of go language:
+This repository contains code for interpreter in java written for defined subset of GO language (GO_interpreter.java),
+along with an extra file(testcases.java) in which you can test given interpreter for given algorithms. All the files written in GO (files ending with .go) are implementations of given algorithms in GO language.
+
+You can check the correctnes of given interpreter for defined algorithms by seeing the commit history of testcases.java.
+You can also write code in the interpreter but ONLY for the defined subset of GO language.
+
+
+Here is a complete list  of all expressions in defined subset of go language:
 1. variable type declaration - var n int (only int type)
 2. fmt.Print()
 3. fmt.Println()   (note: print and println won't execute if theres no input, can only print String and variable inputs seperately, no concatination)
