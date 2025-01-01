@@ -123,42 +123,95 @@ public class GO_interpreter {
         }
     }
     
-    private void evaluateIf(String line) {
-        if (line.startsWith("if ")) {
-            String condition = line.substring(3, line.indexOf("{")).trim();
-            String body = line.substring(line.indexOf("{") + 1, line.lastIndexOf("}"));
-
-            if (evaluateCondition(condition)) {
-                interpret(body);
+    private void evaluateIf(String code) {
+        if (!code.startsWith("if ")) {
+            throw new IllegalArgumentException("Invalid if statement: " + code);
+        }
+    
+        // Extract the condition
+        int ifConditionStart = 3; // Start after "if "
+        int ifConditionEnd = code.indexOf("{");
+        if (ifConditionEnd == -1) {
+            throw new IllegalArgumentException("Malformed if statement: Missing '{': " + code);
+        }
+        String condition = code.substring(ifConditionStart, ifConditionEnd).trim();
+    
+        // Extract the 'if' block
+        int ifBodyStart = ifConditionEnd + 1; // Start after '{'
+        int ifBodyEnd = findMatchingBrace(code, ifBodyStart);
+        if (ifBodyEnd == -1) {
+            throw new IllegalArgumentException("Malformed if statement: Missing '}' for if block: " + code);
+        }
+        String ifBody = code.substring(ifBodyStart, ifBodyEnd).trim();
+    
+        // Extract the 'else' block, if it exists
+        String elseBody = null;
+        int elseIndex = code.indexOf("else", ifBodyEnd);
+        if (elseIndex != -1) {
+            int elseBodyStart = code.indexOf("{", elseIndex);
+            int elseBodyEnd = findMatchingBrace(code, elseBodyStart + 1);
+            if (elseBodyStart == -1 || elseBodyEnd == -1) {
+                throw new IllegalArgumentException("Malformed else statement: Missing braces for else block: " + code);
             }
-        } else {
-            throw new IllegalArgumentException("Invalid if statement: " + line);
+            elseBody = code.substring(elseBodyStart + 1, elseBodyEnd).trim();
+        }
+    
+        // Evaluate the condition and execute the appropriate block
+        if (evaluateCondition(condition)) {
+            interpret(ifBody);
+        } else if (elseBody != null) {
+            interpret(elseBody);
         }
     }
+    
+    // Utility function to find the matching closing brace for a given opening brace
+    private int findMatchingBrace(String code, int start) {
+        int braceCount = 0;
+        for (int i = start; i < code.length(); i++) {
+            char c = code.charAt(i);
+            if (c == '{') {
+                braceCount++;
+            } else if (c == '}') {
+                braceCount--;
+                if (braceCount == 0) {
+                    return i; // Found the matching closing brace
+                }
+            }
+        }
+        return -1; // No matching brace found
+    }
+    
 
     private boolean evaluateCondition(String condition) {
-        String[] parts = condition.split("<=|>=|==|<|>|");
-        if (parts.length != 2) {
-            throw new IllegalArgumentException("Invalid condition: " + condition);
+        String[] operators = {"<=", ">=", "==", "!=", "<", ">"};
+        for (String operator : operators) {
+            int operatorIndex = condition.indexOf(operator);
+            if (operatorIndex != -1) {
+                String leftOperand = condition.substring(0, operatorIndex).trim();
+                String rightOperand = condition.substring(operatorIndex + operator.length()).trim();
+    
+                int leftValue = evaluateArithmetic(leftOperand);
+                int rightValue = evaluateArithmetic(rightOperand);
+    
+                switch (operator) {
+                    case "<=":
+                        return leftValue <= rightValue;
+                    case ">=":
+                        return leftValue >= rightValue;
+                    case "==":
+                        return leftValue == rightValue;
+                    case "!=":
+                        return leftValue != rightValue;
+                    case "<":
+                        return leftValue < rightValue;
+                    case ">":
+                        return leftValue > rightValue;
+                }
+            }
         }
-
-        int left = evaluateArithmetic(parts[0].trim());
-        int right = evaluateArithmetic(parts[1].trim());
-
-        if (condition.contains("<=")) {
-            return left <= right;
-        } else if (condition.contains(">=")) {
-            return left >= right;
-        } else if (condition.contains("==")) {
-            return left == right;
-        } else if (condition.contains("<")) {
-            return left < right;
-        } else if (condition.contains(">")) {
-            return left > right;
-        } else {
-            throw new IllegalArgumentException("Unsupported condition: " + condition);
-        }
+        throw new IllegalArgumentException("Unsupported or invalid condition: " + condition);
     }
+    
 
     private void forLoop(String line) {
         if (line.startsWith("for ")) {

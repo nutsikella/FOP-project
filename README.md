@@ -8,6 +8,6 @@ Here is a complete list  of all expressions in given subset of go language:
 5. assignment and declaration operators :=,=
 6. for loop with one condition to be checked: for (boolean expression) {} //BUG
 7. boolean operators >,<,<=, >=, ==, != //BUG
-8. arithmetic operators +,-,/,*,%,++ //BUG
+8. arithmetic operators +,-,/,*,%,++ 
 9. if, if-else conditions //BUG
 10. return statement that only exits the program, doesn't return any values
