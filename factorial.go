@@ -4,20 +4,18 @@ package main
 /*
 import ("fmt")
 func main(){
-	var n int
-	fmt.Print("Enter a number n: ")
-	fmt.Scan(&n)
+ //removed scanner, so the code will be tested for a random number n 
+         n := 3
+	    sum := 1
 
-	sum := 1
-
-	i := 1
-	for  i <= n{
+	    i := 1
+	    for  i <= n{
 		sum = sum * i
-		i++
-	}
+		i = i + 1
+	    }
 
-	fmt.Print("The factorial of given number is ")
-	fmt.Println(sum)
+	    fmt.Print("The factorial of given number is ")
+	    fmt.Println(sum)
 
 }
 */
