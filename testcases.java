@@ -9,6 +9,11 @@ public class testcases {
         } else {
             fmt.Println(n)
         }
+        
+        for n < 6 {
+         n = n + 1
+        }
+         fmt.Println(n)
         """;
         GO_interpreter interpreter = new GO_interpreter();
         interpreter.interpret(GOcode);
