@@ -9,12 +9,10 @@ package main
 import ("fmt")
 
 func main(){
-	var n int
-	fmt.Print("Enter a number n: ")
-	fmt.Scan(&n)
+// testing for random int n
+	n := 121
 
 	original := n
-	fmt.Println(original)
 	
 	var endDigit int
 	var reversed int 
@@ -24,11 +22,16 @@ func main(){
 		reversed = reversed*10 + endDigit
 		n = n/10
 	}
-	if reversed == original {
-		fmt.Println("Given number is a Palindrome")
-	}else{
+
+	if reversed > original {
 		fmt.Println("Given number isn't a Palindrome")
+		return
 	}
+	if reversed < original {
+		fmt.Println("Given number isn't a Palindrome")
+		return
+	}
+		fmt.Println("Given number is a Palindrome")
 }
 */
 

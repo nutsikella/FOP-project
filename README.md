@@ -6,7 +6,7 @@ Here is a complete list  of all expressions in given subset of go language:
 3. fmt.Println()   (note: print and println won't execute if theres no input, can only print String and variable inputs seperately, no concatination)
 4. assignment and declaration operators :=,=
 5. for loop with one condition to be checked: for (boolean expression) {} 
-6. boolean operators >,<,<=, >=, ==, != 
+6. boolean operators >,<
 7. arithmetic operators +,-,/,*,%
 8. if, if-else conditions 
 9. return statement that only exits the program, doesn't return any values
@@ -19,7 +19,7 @@ List of algorithms:
 4. largest digit: works 
 5. multiplication table: works 
 6. reversing a number: works
-7. palindrome number 
+7. palindrome number: works
 8. prime number
 9, sum
 10. sum of digits 

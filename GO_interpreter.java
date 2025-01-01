@@ -30,6 +30,8 @@ public class GO_interpreter {
             scan(line);
         } else if (line.contains("=") || line.contains(":=")) {
             assignValue(line);
+        } else if(line.startsWith("return")){
+            GOreturn(line);
         }
     }
 
@@ -190,5 +192,9 @@ public class GO_interpreter {
         while (evaluateCondition(condition)) {
             interpret(body);
         }
+    }
+    private void GOreturn(String line){
+        // handles return statement which finishes the execution 
+        System.exit(0);
     }
 }
