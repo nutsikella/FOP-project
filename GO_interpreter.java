@@ -74,7 +74,6 @@ public class GO_interpreter {
         }
         
     }
-//"[=:]+"
     private void assignValue(String line){
         // handles variable assignment
        
@@ -97,6 +96,7 @@ public class GO_interpreter {
     private int evaluateArithmetic(String expr){
         // evaluate Arithmetic expression
         try {
+            // POSSIBLE BUG
             return Integer.parseInt(expr);
         } catch (NumberFormatException e) {
             if(variables.containsKey(expr)){
@@ -109,35 +109,60 @@ public class GO_interpreter {
 
     private void evaluateIf(String line){
         //evaluates If statement 
+        if (line.startsWith("if ")) {
+            String condition = line.substring(3, line.indexOf("{")).trim();
+            String body = line.substring(line.indexOf("{") + 1, line.lastIndexOf("}"));
 
+            if (evaluateCondition(condition)) {
+                interpret(body);
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid if statement: " + line);
+        }
+
+    }
+    private boolean evaluateCondition(String condition) {
+        // Simple evaluation of conditions (supports variables and constants)
+        String[] parts = condition.split("<=|>=|==|<|>|");
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Invalid condition: " + condition);
+        }
+
+        int left = evaluateArithmetic(parts[0].trim());
+        int right = evaluateArithmetic(parts[1].trim());
+
+        if (condition.contains("<=")) {
+            return left <= right;
+        } else if (condition.contains(">=")) {
+            return left >= right;
+        } else if (condition.contains("==")) {
+            return left == right;
+        } else if (condition.contains("<")) {
+            return left < right;
+        } else if (condition.contains(">")) {
+            return left > right;
+        } else {
+            throw new IllegalArgumentException("Unsupported condition: " + condition);
+        }
     }
 
     private void forLoop(String line){
         // for handling for loops with only 1 condition (while loop version of GO)
+        if (line.startsWith("for ")) {
+            String condition = line.substring(4, line.indexOf("{")).trim();
+            String body = line.substring(line.indexOf("{") + 1, line.lastIndexOf("}"));
 
+            while (evaluateCondition(condition)) {
+                interpret(body);
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid for loop: " + line);
+        }
     }
 
     private void GOreturn(String line){
         // handles return statement which finishes the execution 
-
-    }
-
-    public static void main(String[] args) {
-        String GOcode = """
-                var n int
-	            fmt.Print("Enter a number n: ")
-	            fmt.Scan(&n)
-                sum := 1
-                i := 1
-                for  i <= n{
-                sum = sum * i
-                i++
-                }
-                fmt.Print("The factorial of given number is ")
-                fmt.Println(sum)
-                """;
-        GO_interpreter interpreter = new GO_interpreter();
-        interpreter.interpret(GOcode);
+        System.exit(0);
     }
 
 }
